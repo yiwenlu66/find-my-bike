@@ -66,26 +66,29 @@ String input()
 void play()
 {
     String inputString;
-    for (int thisNote = 0; thisNote < sizeof(melody) / sizeof(int); thisNote++) {
+    bool run_flag = true;
+    while (run_flag)
+        for (int thisNote = 0; thisNote < sizeof(melody) / sizeof(int); thisNote++) {
 
-        int noteDuration = 1000 / noteDurations[thisNote];
-        tone(SOUNDPIN, melody[thisNote], noteDuration);
+            int noteDuration = 1000 / noteDurations[thisNote];
+            tone(SOUNDPIN, melody[thisNote], noteDuration);
 
-        inputString = input();
-        if (inputString == ARG_LEDON)
-            digitalWrite(LEDPIN, HIGH);
-        if (inputString == ARG_LEDOFF)
-            digitalWrite(LEDPIN, LOW);
-        if (inputString == ARG_SOUNDOFF)
-            break;
-        inputString = "";
+            inputString = input();
+            if (inputString == ARG_LEDON)
+                digitalWrite(LEDPIN, HIGH);
+            if (inputString == ARG_LEDOFF)
+                digitalWrite(LEDPIN, LOW);
+            if (inputString == ARG_SOUNDOFF) {
+                run_flag = false;
+                break;
+            }
+            inputString = "";
 
-        int pauseBetweenNotes = noteDuration * 1.30;
-        delay(pauseBetweenNotes);
+            int pauseBetweenNotes = noteDuration * 1.30;
+            delay(pauseBetweenNotes);
 
-        noTone(SOUNDPIN);
-    }
-
+            noTone(SOUNDPIN);
+        }
 }
 
 void setup()
