@@ -1,4 +1,10 @@
 #include "pitches.h"
+#define LEDPIN 13
+#define SOUNDPIN 8
+#define ARG_LEDON "1"
+#define ARG_LEDOFF "2"
+#define ARG_SOUNDON "3"
+#define BAUDRATE 9600
 
 char junk;
 String inputString = "";
@@ -45,8 +51,8 @@ int noteDurations[] = {
 
 void setup()
 {
-    Serial1.begin(9600);
-    pinMode(13, OUTPUT);
+    Serial1.begin(BAUDRATE);
+    pinMode(LEDPIN, OUTPUT);
 }
 
 void loop()
@@ -60,12 +66,12 @@ void loop()
         while (Serial1.available() > 0) {
             junk = Serial1.read() ;
         }
-        if (inputString == "a") {
-            digitalWrite(13, HIGH);
-        } else if (inputString == "b") {
-            digitalWrite(13, LOW);
-        } else if (inputString == "c") {
-            for (int thisNote = 0; thisNote < 82; thisNote++) {
+        if (inputString == ARG_LEDON) {
+            digitalWrite(LEDPIN, HIGH);
+        } else if (inputString == ARG_LEDOFF) {
+            digitalWrite(LEDPIN, LOW);
+        } else if (inputString == ARG_SOUNDON) {
+            for (int thisNote = 0; thisNote < sizeof(melody) / sizeof(int); thisNote++) {
 
                 int noteDuration = 1000 / noteDurations[thisNote];
                 tone(SOUNDPIN, melody[thisNote], noteDuration);
@@ -79,4 +85,3 @@ void loop()
         inputString = "";
     }
 }
-
