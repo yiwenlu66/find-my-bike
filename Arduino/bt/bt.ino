@@ -4,6 +4,7 @@
 #define ARG_LEDON "1"
 #define ARG_LEDOFF "2"
 #define ARG_SOUNDON "3"
+#define ARG_SOUNDOFF "4"
 #define BAUDRATE 9600
 
 char junk;
@@ -64,10 +65,20 @@ String input()
 
 void play()
 {
+    String inputString;
     for (int thisNote = 0; thisNote < sizeof(melody) / sizeof(int); thisNote++) {
 
         int noteDuration = 1000 / noteDurations[thisNote];
         tone(SOUNDPIN, melody[thisNote], noteDuration);
+
+        inputString = input();
+        if (inputString == ARG_LEDON)
+            digitalWrite(LEDPIN, HIGH);
+        if (inputString == ARG_LEDOFF)
+            digitalWrite(LEDPIN, LOW);
+        if (inputString == ARG_SOUNDOFF)
+            break;
+        inputString = "";
 
         int pauseBetweenNotes = noteDuration * 1.30;
         delay(pauseBetweenNotes);
