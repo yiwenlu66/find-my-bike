@@ -5,7 +5,7 @@
 #define ARG_LEDOFF "2"
 #define ARG_SOUNDON "3"
 #define ARG_SOUNDOFF "4"
-#define BAUDRATE 9600
+#define BAUDRATE 57600
 
 char junk;
 
